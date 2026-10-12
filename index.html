@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Recomp">
+<meta name="theme-color" content="#2459C9">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>84 → 75 Home Program</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EDF0F3; --surface:#FFFFFF; --ink:#17202B; --muted:#5B6675; --line:#D3D9E0;
+  --bell:#2459C9; --bell-ink:#FFFFFF; --rest:#E9B412; --rest-ink:#1E1A08;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10161E; --surface:#19212C; --ink:#E8EDF2; --muted:#93A0AF; --line:#2A3442;
+    --bell:#5B8BF0; --bell-ink:#0B1220; --rest:#F4C841; --rest-ink:#1E1A08;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10161E; --surface:#19212C; --ink:#E8EDF2; --muted:#93A0AF; --line:#2A3442;
+  --bell:#5B8BF0; --bell-ink:#0B1220; --rest:#F4C841; --rest-ink:#1E1A08;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 Barlow,system-ui,-apple-system,"Segoe UI",sans-serif;padding-bottom:190px}
+.wrap{max-width:680px;margin:0 auto;padding:20px 16px}
+h1{font:700 clamp(44px,13vw,72px)/0.95 "Barlow Condensed","Arial Narrow",sans-serif;margin:8px 0 6px;letter-spacing:-0.01em}
+h1 span{color:var(--muted);font-weight:600}
+.lede{color:var(--muted);margin:0 0 18px;max-width:52ch}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--bell);outline-offset:2px}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 10px;margin:0 -2px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;border:2px solid var(--line);background:var(--surface);border-radius:12px;padding:8px 14px;text-align:left;min-width:96px}
+.tab small{display:block;color:var(--muted);font-size:13px}
+.tab b{font:700 20px/1.1 "Barlow Condensed","Arial Narrow",sans-serif}
+.tab[aria-selected="true"]{border-color:var(--bell);background:var(--bell);color:var(--bell-ink)}
+.tab[aria-selected="true"] small{color:inherit;opacity:.8}
+.dayhead{display:flex;justify-content:space-between;align-items:baseline;margin:14px 0 8px;gap:12px}
+.dayhead h2{font:700 30px/1 "Barlow Condensed","Arial Narrow",sans-serif;margin:0}
+.ghost{background:none;border:none;color:var(--muted);text-decoration:underline;padding:4px}
+ol.ex{list-style:none;margin:0;padding:0;counter-reset:ex}
+.ex>li{counter-increment:ex;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;margin-bottom:10px;position:relative}
+.ex>li.complete{border-color:var(--bell)}
+.ex h3{margin:0;font:600 19px/1.25 Barlow,system-ui,sans-serif;padding-left:34px}
+.ex h3::before{content:counter(ex);position:absolute;left:14px;top:14px;width:24px;height:24px;border-radius:50%;background:var(--bg);color:var(--muted);font:700 15px/24px "Barlow Condensed",sans-serif;text-align:center}
+.ex>li.complete h3::before{background:var(--bell);color:var(--bell-ink)}
+.meta{margin:2px 0 0 34px;color:var(--muted);font-size:15px}
+.meta strong{color:var(--ink);font-weight:600}
+.sets{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 10px}
+.set{width:46px;height:46px;border-radius:50%;border:2px solid var(--line);background:transparent;font:700 18px "Barlow Condensed",sans-serif}
+.set.done{background:var(--bell);border-color:var(--bell);color:var(--bell-ink)}
+.set.timed{border-style:dashed}
+.set.timed.done{border-style:solid}
+.note{width:100%;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:8px;padding:8px 10px;font:inherit;font-size:15px}
+.note::placeholder{color:var(--muted)}
+.top{display:flex;gap:12px;align-items:flex-start}
+.top .txt{flex:1;min-width:0}
+.fig{flex:0 0 104px;height:86px;background:var(--bg);border-radius:10px}
+.fig svg{width:100%;height:100%;display:block}
+.easy{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:10px 14px;margin:0 0 14px}
+.easy p{margin:0;flex:1;font-size:15px;color:var(--muted)}
+.easy p b{color:var(--ink)}
+.sw{flex:0 0 auto;width:52px;height:30px;border-radius:15px;border:none;background:var(--line);position:relative}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--surface);transition:left .15s}
+.sw[aria-checked="true"]{background:var(--bell)}
+.sw[aria-checked="true"]::after{left:25px}
+.moves{list-style:none;padding:0;margin:10px 0 14px;display:grid;gap:8px}
+.moves li{display:flex;align-items:center;gap:12px}
+.moves .fig{flex-basis:84px;height:70px}
+.emom{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px}
+.emom ol{margin:8px 0 14px;padding-left:22px}
+.emom label{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.emom select{font:inherit;padding:6px 8px;border-radius:8px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+.go{background:var(--bell);color:var(--bell-ink);border:none;border-radius:12px;padding:12px 20px;font:700 22px "Barlow Condensed",sans-serif;width:100%}
+details{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-top:22px}
+summary{font-weight:600;cursor:pointer}
+details p,details ul{margin:10px 0 0;color:var(--ink)}
+details ul{padding-left:20px}
+details li{margin-bottom:4px}
+.timer{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding:12px 16px calc(12px + env(safe-area-inset-bottom,0px));box-shadow:0 -6px 24px rgba(15,25,40,.12)}
+.timer .in{max-width:680px;margin:0 auto}
+.bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin-bottom:10px}
+.bar i{display:block;height:100%;width:0;background:var(--bell);transition:width .2s linear}
+.timer.rest .bar i{background:var(--rest)}
+.trow{display:flex;align-items:center;gap:12px}
+.tclock{font:700 64px/0.9 "Barlow Condensed","Arial Narrow",sans-serif;font-variant-numeric:tabular-nums;min-width:2.6ch}
+.timer.rest .tclock{color:var(--rest)}
+.timer.idle .tclock{color:var(--line)}
+.tinfo{flex:1;min-width:0}
+.tlabel{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tsub{color:var(--muted);font-size:14px}
+.tbtns{display:flex;gap:6px;margin-top:10px}
+.tbtns button{flex:1;border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:9px 4px;font-weight:600;font-size:15px}
+.tbtns button:disabled{opacity:.4;cursor:default}
+@media (prefers-reduced-motion: reduce){.bar i,.sw::after{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>84 <span>→</span> 75 kg</h1>
+  <p class="lede">Four strength days and one conditioning day to lose fat and keep building muscle. Tap a set when you finish it and the rest timer starts on its own.</p>
+  <div class="easy"><p><b>Easy start</b> for your first two weeks back: one fewer set, longer rests, shorter holds.</p><button class="sw" id="easy" role="switch" aria-checked="true" aria-label="Easy start"></button></div>
+
+  <div class="tabs" role="tablist" id="tabs"></div>
+  <div id="day"></div>
+
+  <details>
+    <summary>How to progress</summary>
+    <ul>
+      <li>Weekly rhythm: Day 1, Day 2, rest, Day 3, Day 4, Day 5, rest. Start on any day of the week.</li>
+      <li>Keep Easy start on for two weeks, then switch it off.</li>
+      <li>Hit the top of the rep range on every set, then make it harder: slower lowering (3–4 s), a pause at the hardest point, or an extra set.</li>
+      <li>Stop most sets 1–2 reps short of failure. The last set of push-ups can go closer.</li>
+      <li>10 kg will get light for legs first. Single-leg moves and the 16 kg kettlebell buy time; adjustable dumbbells up to 20–24 kg are the best next purchase.</li>
+      <li>Walk 8–10k steps daily. It burns fat without eating into recovery.</li>
+    </ul>
+  </details>
+  <details>
+    <summary>Eating for fat loss while adding muscle</summary>
+    <ul>
+      <li>Calories: start around 2,100–2,300 a day, a mild deficit so training stays strong.</li>
+      <li>Protein: 150–170 g a day, spread over 3–4 meals.</li>
+      <li>Aim to lose 0.25–0.5 kg a week. Faster usually costs muscle.</li>
+      <li>Track the weekly average weight plus your waist. If weight stalls but your waist shrinks and lifts go up, it's working.</li>
+    </ul>
+  </details>
+</div>
+
+<div class="timer idle" id="timer" aria-live="polite">
+  <div class="in">
+    <div class="bar"><i id="tbar"></i></div>
+    <div class="trow">
+      <div class="tclock" id="tclock">0:00</div>
+      <div class="tinfo">
+        <div class="tlabel" id="tlabel">Ready</div>
+        <div class="tsub" id="tsub">Finish a set, then tap its number</div>
+      </div>
+    </div>
+    <div class="tbtns">
+      <button id="bMinus" disabled>−15 s</button>
+      <button id="bPlus" disabled>+15 s</button>
+      <button id="bPause" disabled>Pause</button>
+      <button id="bSkip" disabled>Skip</button>
+      <button id="bStop" disabled>Stop</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DAYS = [
+  {id:'ua', name:'Upper A', when:'Day 1', items:[
+    {n:'Dumbbell floor press', sets:4, reps:'8–12', rest:90, tip:'3 s down, 1 s pause on the floor'},
+    {n:'One-arm dumbbell row', sets:4, reps:'10–12 per side', rest:90, tip:'Pull to the hip, pause at the top'},
+    {n:'Push-ups', sets:3, reps:'Max, stop 1–2 short', rest:75},
+    {n:'Lateral raise (3 kg)', sets:3, reps:'15–20', rest:60, tip:'Slow, no swinging'},
+    {n:'Dumbbell curl', sets:3, reps:'10–12', rest:60, tip:'3 s down'},
+    {n:'Overhead triceps extension', sets:3, reps:'12–15', rest:60, tip:'One 10 kg held in both hands'},
+    {n:'Lying leg raise', sets:3, reps:'10–12', rest:45, tip:'Lower back pressed into the floor, lower slowly'},
+    {n:'Russian twist', sets:3, reps:'10 per side', rest:45, tip:'Start with a 3 kg, move to 10 kg. Turn from the ribs, not the arms'}
+  ]},
+  {id:'la', name:'Lower A', when:'Day 2', items:[
+    {n:'Goblet squat (kettlebell)', sets:4, reps:'10–15', rest:90, tip:'3 s down, 2 s pause at the bottom'},
+    {n:'Bulgarian split squat', sets:3, reps:'8–10 per leg', rest:90, tip:'10 kg in each hand, rear foot on a chair'},
+    {n:'Single-leg Romanian deadlift', sets:3, reps:'10 per leg', rest:75, tip:'One 10 kg, slow and controlled. Hold the 16 kg kettlebell once that gets easy'},
+    {n:'Kettlebell glute bridge', sets:3, reps:'15', rest:60, tip:'2 s squeeze at the top'},
+    {n:'Plank', sets:3, reps:'45 s hold', rest:45, timed:45},
+    {n:'Reverse crunch', sets:3, reps:'12–15', rest:45, tip:'Curl the hips off the floor, no swinging'}
+  ]},
+  {id:'ub', name:'Upper B', when:'Day 3', items:[
+    {n:'Feet-elevated push-ups', sets:4, reps:'Max, stop 1–2 short', rest:90},
+    {n:'Bent-over row (both dumbbells)', sets:4, reps:'12', rest:90, tip:'1 s pause at the top'},
+    {n:'Arnold press', sets:3, reps:'10–12', rest:75},
+    {n:'Rear delt fly (3 kg)', sets:3, reps:'15–20', rest:60},
+    {n:'Hammer curl', sets:3, reps:'12', rest:60},
+    {n:'Close-grip push-ups', sets:3, reps:'Max', rest:60},
+    {n:'Dead bug', sets:3, reps:'10 per side', rest:45},
+    {n:'Weighted crunch (10 kg)', sets:3, reps:'12–15', rest:45, tip:'Dumbbell on your chest, breathe out as you curl up'}
+  ]},
+  {id:'lb', name:'Lower B', when:'Day 4', items:[
+    {n:'Kettlebell swings', sets:5, reps:'15', rest:60, tip:'Drive with the hips, arms just guide'},
+    {n:'Dumbbell Romanian deadlift', sets:4, reps:'12', rest:90, tip:'3 s down, feel the hamstrings'},
+    {n:'Reverse lunge', sets:3, reps:'10 per leg', rest:75, tip:'10 kg in each hand'},
+    {n:'Kettlebell Cossack squat', sets:3, reps:'6–8 per side', rest:60, tip:'Bodyweight first. Add the 16 kg once the movement feels smooth'},
+    {n:'Single-leg calf raise', sets:3, reps:'15 per leg', rest:45, tip:'Hold a 10 kg, pause at the top'},
+    {n:'Side plank, alternate sides', sets:6, reps:'30 s, left then right', rest:20, timed:30},
+    {n:'Bicycle crunch', sets:3, reps:'12 per side', rest:45, tip:'Slow, elbow toward the opposite knee'}
+  ]},
+  {id:'cd', name:'Conditioning', when:'Day 5', emom:true,
+    moves:['15 kettlebell swings','10 goblet squats','10 push-ups','20 mountain climbers']}
+];
+
+/* stick-figure poses: h head, n shoulders, p hips, a1/l1 near limbs, a2/l2 far limbs */
+const P={
+ press:{h:[22,76],n:[32,78],p:[60,78],a1:[[33,66],[34,54]],a2:[[36,66],[37,54]],l1:[[74,64],[86,84]],l2:[[77,64],[89,84]],db:[[34,53]]},
+ row1:{chair:[84,60],h:[87,35],n:[78,40],p:[50,48],a1:[[66,32],[66,46]],a2:[[83,50],[88,60]],l1:[[68,67],[72,84]],l2:[[46,67],[42,84]],db:[[66,48]]},
+ push:{h:[93,50],n:[84,54],p:[52,64],a1:[[85,69],[86,84]],a2:[[82,69],[83,84]],l1:[[37,74],[22,84]],l2:[[35,74],[20,84]]},
+ pushc:{h:[94,68],n:[84,72],p:[52,72],a1:[[74,73],[82,84]],a2:[[72,73],[80,84]],l1:[[37,78],[22,84]],l2:[[35,78],[20,84]]},
+ pushfe:{chair:[4,62],h:[93,53],n:[84,57],p:[50,60],a1:[[85,71],[86,84]],a2:[[82,71],[83,84]],l1:[[34,61],[18,62]],l2:[[32,61],[16,62]]},
+ lat:{front:true,h:[60,14],n:[60,24],p:[60,50],a1:[[73,26],[86,27]],a2:[[47,26],[34,27]],l1:[[66,67],[68,84]],l2:[[54,67],[52,84]],db:[[86,27],[34,27]]},
+ curl:{h:[60,14],n:[60,24],p:[60,50],a1:[[62,38],[72,29]],a2:[[58,38],[58,51]],l1:[[61,67],[60,84]],l2:[[58,67],[57,84]],db:[[72,29],[58,52]]},
+ tri:{h:[67,16],n:[60,24],p:[60,50],a1:[[63,10],[52,17]],a2:[[61,10],[50,17]],l1:[[61,67],[60,84]],l2:[[58,67],[57,84]],db:[[51,18]]},
+ gob:{h:[60,26],n:[56,36],p:[50,62],a1:[[62,48],[67,40]],a2:[[60,48],[65,40]],l1:[[68,64],[64,84]],l2:[[66,64],[61,84]],kb:[70,44]},
+ bss:{chair:[8,60],h:[57,22],n:[56,32],p:[54,58],a1:[[57,45],[57,58]],a2:[[55,45],[55,58]],l1:[[72,66],[70,84]],l2:[[44,74],[26,60]],db:[[57,60]]},
+ slrdl:{h:[93,41],n:[84,44],p:[58,50],a1:[[84,57],[84,70]],a2:[[82,57],[82,70]],l1:[[60,67],[60,84]],l2:[[41,47],[24,44]],db:[[84,72]]},
+ bridge:{h:[18,78],n:[28,78],p:[56,66],a1:[[42,72],[54,62]],a2:[[40,74],[52,64]],l1:[[74,60],[78,84]],l2:[[72,60],[76,84]],kb:[56,59]},
+ plank:{h:[93,63],n:[84,67],p:[52,72],a1:[[84,82],[96,82]],a2:[[81,82],[93,82]],l1:[[37,78],[20,84]],l2:[[35,78],[18,84]]},
+ brow:{h:[87,38],n:[78,42],p:[50,52],a1:[[66,34],[68,47]],a2:[[64,34],[66,47]],l1:[[62,68],[58,84]],l2:[[60,68],[55,84]],db:[[68,49]]},
+ arnold:{h:[60,14],n:[60,24],p:[60,50],a1:[[64,12],[64,-1]],a2:[[57,12],[57,-1]],l1:[[61,67],[60,84]],l2:[[58,67],[57,84]],db:[[64,-2],[57,-2]]},
+ rdf:{h:[87,38],n:[78,42],p:[50,52],a1:[[80,31],[78,20]],a2:[[76,31],[74,20]],l1:[[62,68],[58,84]],l2:[[60,68],[55,84]],db:[[78,19]]},
+ dbug:{h:[20,78],n:[30,78],p:[58,78],a1:[[31,66],[32,54]],a2:[[18,76],[6,74]],l1:[[62,62],[76,62]],l2:[[74,75],[90,73]]},
+ swing:{h:[60,14],n:[60,24],p:[60,50],a1:[[72,29],[84,33]],a2:[[71,30],[83,34]],l1:[[62,67],[61,84]],l2:[[59,67],[57,84]],kb:[87,39]},
+ rdl:{h:[87,41],n:[78,44],p:[50,50],a1:[[78,57],[78,70]],a2:[[76,57],[76,70]],l1:[[56,67],[56,84]],l2:[[53,67],[53,84]],db:[[78,72]]},
+ lunge:{h:[56,24],n:[55,34],p:[54,60],a1:[[55,47],[55,60]],a2:[[53,47],[53,60]],l1:[[72,66],[70,84]],l2:[[46,78],[28,84]],db:[[55,62]]},
+ coss:{front:true,h:[48,30],n:[48,40],p:[46,64],a1:[[54,50],[50,44]],a2:[[42,50],[46,44]],l1:[[70,72],[94,80]],l2:[[30,66],[36,84]],kb:[48,49]},
+ calf:{wall:94,h:[60,10],n:[60,20],p:[60,46],a1:[[74,24],[88,22]],a2:[[58,34],[58,47]],l1:[[61,63],[61,79]],l2:[[58,63],[58,79]],db:[[58,49]],toes:[[61,79,67,84],[58,79,64,84]]},
+ splank:{front:true,h:[94,44],n:[86,50],p:[56,66],a1:[[87,67],[88,84]],a2:[[72,52],[62,62]],l1:[[38,75],[20,84]],l2:[[38,73],[20,82]]}
+};
+Object.assign(P,{
+ legraise:{h:[20,78],n:[30,78],p:[58,78],a1:[[44,80],[56,81]],a2:[[42,80],[54,81]],l1:[[70,64],[82,50]],l2:[[72,66],[85,53]]},
+ twist:{h:[37,46],n:[40,56],p:[48,80],a1:[[52,64],[62,66]],a2:[[50,65],[60,67]],l1:[[66,64],[80,76]],l2:[[64,65],[78,78]],db:[[63,66]]},
+ revcrunch:{h:[18,78],n:[28,78],p:[52,74],a1:[[40,80],[52,81]],a2:[[38,80],[50,81]],l1:[[50,56],[64,52]],l2:[[52,57],[66,54]]},
+ crunch:{h:[24,64],n:[32,70],p:[58,78],a1:[[42,64],[37,66]],a2:[[41,66],[36,68]],l1:[[74,62],[86,84]],l2:[[76,62],[89,84]],db:[[37,65]]},
+ bicycle:{h:[24,66],n:[32,72],p:[58,78],a1:[[30,58],[24,60]],a2:[[34,60],[27,62]],l1:[[54,62],[68,60]],l2:[[76,74],[93,72]]},
+ mclimb:{h:[93,50],n:[84,54],p:[52,62],a1:[[85,69],[86,84]],a2:[[82,69],[83,84]],l1:[[68,70],[62,82]],l2:[[37,73],[22,84]]}
+});
+const F={'Lying leg raise':'legraise','Russian twist':'twist','Reverse crunch':'revcrunch','Weighted crunch (10 kg)':'crunch','Bicycle crunch':'bicycle','Dumbbell floor press':'press','One-arm dumbbell row':'row1','Push-ups':'push','Lateral raise (3 kg)':'lat','Dumbbell curl':'curl','Overhead triceps extension':'tri','Goblet squat (kettlebell)':'gob','Bulgarian split squat':'bss','Single-leg Romanian deadlift':'slrdl','Kettlebell glute bridge':'bridge','Plank':'plank','Feet-elevated push-ups':'pushfe','Bent-over row (both dumbbells)':'brow','Arnold press':'arnold','Rear delt fly (3 kg)':'rdf','Hammer curl':'curl','Close-grip push-ups':'pushc','Dead bug':'dbug','Kettlebell swings':'swing','Dumbbell Romanian deadlift':'rdl','Reverse lunge':'lunge','Kettlebell Cossack squat':'coss','Single-leg calf raise':'calf','Side plank, alternate sides':'splank'};
+const MOVEFIG=['swing','gob','push','mclimb'];
+function fig(key,label){
+  const q=P[key]; if(!q) return '';
+  const ink='var(--ink)', back=q.front?ink:'var(--muted)';
+  const L=(a,b,c)=>`<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${c}"/>`;
+  const limb=(from,j,c)=>j?L(from,j[0],c)+L(j[0],j[1],c):'';
+  let s=`<svg viewBox="0 -10 120 100" role="img" aria-label="${esc(label)}"><g stroke-width="4" stroke-linecap="round" fill="none">`;
+  s+=`<line x1="2" y1="86" x2="118" y2="86" stroke="var(--line)" stroke-width="2"/>`;
+  if(q.chair){const[x,y]=q.chair;s+=`<rect x="${x}" y="${y+2}" width="22" height="${84-y}" rx="2" fill="var(--line)" stroke="none"/>`}
+  if(q.wall)s+=`<rect x="${q.wall}" y="-10" width="8" height="96" fill="var(--line)" stroke="none"/>`;
+  s+=limb(q.n,q.a2,back)+limb(q.p,q.l2,back);
+  s+=L(q.p,q.n,ink)+`<circle cx="${q.h[0]}" cy="${q.h[1]}" r="6" fill="${ink}" stroke="none"/>`;
+  s+=limb(q.p,q.l1,ink)+limb(q.n,q.a1,ink);
+  (q.toes||[]).forEach(t=>{s+=`<line x1="${t[0]}" y1="${t[1]}" x2="${t[2]}" y2="${t[3]}" stroke="${ink}" stroke-width="3"/>`});
+  (q.db||[]).forEach(([x,y])=>{s+=`<line x1="${x-5}" y1="${y}" x2="${x+5}" y2="${y}" stroke="${ink}" stroke-width="2.5"/><rect x="${x-7}" y="${y-4}" width="3.5" height="8" rx="1" fill="${ink}" stroke="none"/><rect x="${x+3.5}" y="${y-4}" width="3.5" height="8" rx="1" fill="${ink}" stroke="none"/>`});
+  if(q.kb){const[x,y]=q.kb;s+=`<path d="M${x-4} ${y-3}Q${x} ${y-12} ${x+4} ${y-3}" stroke="var(--bell)" stroke-width="2.5"/><circle cx="${x}" cy="${y+1}" r="5.5" fill="var(--bell)" stroke="none"/>`}
+  return s+'</g></svg>';
+}
+function eff(it){
+  if(!state.easy) return it;
+  const t=it.timed?Math.max(15,Math.round(it.timed*0.67/5)*5):0;
+  return Object.assign({},it,{sets:it.sets===6?4:Math.max(2,it.sets-1),rest:it.rest+15,timed:t,reps:t?it.reps.replace(String(it.timed),String(t)):it.reps});
+}
+
+const KEY='recomp-v1';
+let state={day:'ua',done:{},notes:{},easy:true};
+try{const s=localStorage.getItem(KEY); if(s) state=Object.assign(state,JSON.parse(s));}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const $=id=>document.getElementById(id);
+const curDay=()=>DAYS.find(d=>d.id===state.day)||DAYS[0];
+
+function renderTabs(){
+  $('tabs').innerHTML=DAYS.map(d=>`<button class="tab" role="tab" aria-selected="${d.id===state.day}" data-day="${d.id}"><small>${d.when}</small><b>${d.name}</b></button>`).join('');
+}
+function renderDay(){
+  const d=curDay();
+  if(d.emom){
+    $('day').innerHTML=`<div class="dayhead"><h2>${d.name}</h2></div>
+    <div class="emom">
+      <p style="margin:0">Every minute on the minute. Do the reps at the start of each minute, rest for whatever is left. The moves rotate:</p>
+      <ul class="moves">${d.moves.map((m,j)=>`<li><div class="fig">${fig(MOVEFIG[j],m)}</div><span>${esc(m)}</span></li>`).join('')}</ul>
+      <label>Rounds <select id="rounds"><option${state.easy?' selected':''}>8</option><option${state.easy?'':' selected'}>12</option><option>16</option><option>20</option></select></label>
+      <button class="go" id="goEmom">Start conditioning</button>
+    </div>`;
+    return;
+  }
+  const items=d.items.map((raw,i)=>{ const it=eff(raw);
+    const k=d.id+':'+i, done=state.done[k]||[];
+    const all=done.slice(0,it.sets).filter(Boolean).length===it.sets;
+    const dots=Array.from({length:it.sets},(_,s)=>`<button class="set${it.timed?' timed':''}${done[s]?' done':''}" data-i="${i}" data-s="${s}" aria-pressed="${!!done[s]}" aria-label="${esc(it.n)} set ${s+1}${it.timed?', starts a '+it.timed+' second hold':''}">${s+1}</button>`).join('');
+    return `<li class="${all?'complete':''}">
+      <div class="top"><div class="txt"><h3>${esc(it.n)}</h3>
+      <p class="meta"><strong>${it.sets} × ${esc(it.reps)}</strong>, rest ${it.rest} s${it.tip?'<br>'+esc(it.tip):''}</p></div><div class="fig">${fig(F[it.n],it.n)}</div></div>
+      <div class="sets">${dots}</div>
+      <input class="note" data-note="${esc(it.n)}" value="${esc(state.notes[it.n]||'')}" placeholder="Weight or reps last time" aria-label="Notes for ${esc(it.n)}">
+    </li>`;
+  }).join('');
+  $('day').innerHTML=`<div class="dayhead"><h2>${d.name}</h2><button class="ghost" id="reset">Clear sets</button></div><ol class="ex">${items}</ol>`;
+}
+function renderEasy(){$('easy').setAttribute('aria-checked',String(!!state.easy))}
+function render(){renderEasy();renderTabs();renderDay()}
+
+document.addEventListener('click',e=>{
+  const tab=e.target.closest('.tab');
+  if(tab){state.day=tab.dataset.day;save();render();return}
+  const set=e.target.closest('.set');
+  if(set){onSet(+set.dataset.i,+set.dataset.s);return}
+  if(e.target.id==='reset'){const d=curDay();Object.keys(state.done).forEach(k=>{if(k.startsWith(d.id+':'))delete state.done[k]});save();renderDay();return}
+  if(e.target.id==='easy'){state.easy=!state.easy;save();render();return}
+  if(e.target.id==='goEmom'){startEmom(+$('rounds').value);return}
+});
+document.addEventListener('input',e=>{
+  if(e.target.dataset.note!==undefined){state.notes[e.target.dataset.note]=e.target.value;save()}
+});
+
+function nextLabel(d,i,s){
+  const it=eff(d.items[i]);
+  if(s+1<it.sets) return `Next: ${it.n}, set ${s+2} of ${it.sets}`;
+  const n=d.items[i+1];
+  return n?`Next: ${n.n}`:'Last set. Workout done after this rest';
+}
+function mark(d,i,s){const k=d.id+':'+i;(state.done[k]=state.done[k]||[])[s]=true;save();renderDay()}
+function onSet(i,s){
+  const d=curDay(), it=eff(d.items[i]), k=d.id+':'+i, done=state.done[k]||[];
+  if(done[s]){done[s]=false;state.done[k]=done;save();renderDay();return}
+  const rest=()=>startTimer({kind:'rest',label:'Rest',sub:nextLabel(d,i,s),dur:it.rest});
+  if(it.timed){
+    startTimer({kind:'work',label:`Hold: ${it.n}`,sub:`Set ${s+1} of ${it.sets}`,dur:it.timed,onDone:()=>{mark(d,i,s);rest()}});
+  }else{mark(d,i,s);rest()}
+}
+
+/* timer */
+let T=null, idleMsg=null, ac=null, wl=null;
+function audio(){try{ac=ac||new (window.AudioContext||window.webkitAudioContext)(); if(ac.state==='suspended')ac.resume()}catch(e){}}
+document.addEventListener('pointerdown',audio,{once:true});
+function beep(f,d){
+  try{audio(); if(!ac)return; const t=ac.currentTime,o=ac.createOscillator(),g=ac.createGain();
+    o.type='sine';o.frequency.value=f;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.35,t+0.01);g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+    o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d+0.05)}catch(e){}
+}
+async function awake(on){
+  try{
+    if(on&&!wl&&'wakeLock' in navigator){wl=await navigator.wakeLock.request('screen');wl.addEventListener('release',()=>{wl=null})}
+    else if(!on&&wl){await wl.release();wl=null}
+  }catch(e){}
+}
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'&&T)awake(true)});
+
+function startTimer(o){T=Object.assign({},o,{end:Date.now()+o.dur*1000,paused:false,left:0,last:null});idleMsg=null;awake(true);update()}
+const remaining=()=>!T?0:T.paused?T.left:Math.max(0,(T.end-Date.now())/1000);
+function finish(silent){
+  const cb=T&&T.onDone; T=null;
+  if(!silent){beep(1320,0.45);try{navigator.vibrate&&navigator.vibrate([200,80,200])}catch(e){}}
+  if(cb)cb();
+  if(!T)awake(false);
+  update();
+}
+function fmt(sec){const s=Math.ceil(sec);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')}
+function update(){
+  const box=$('timer');
+  const btns=['bMinus','bPlus','bPause','bSkip','bStop'];
+  if(!T){
+    box.className='timer idle';$('tclock').textContent='0:00';$('tbar').style.width='0';
+    $('tlabel').textContent=idleMsg?idleMsg[0]:'Ready';
+    $('tsub').textContent=idleMsg?idleMsg[1]:'Finish a set, then tap its number';
+    btns.forEach(b=>$(b).disabled=true);$('bPause').textContent='Pause';return;
+  }
+  const r=remaining(), s=Math.ceil(r);
+  if(!T.paused&&s<=3&&s>0&&T.last!==s){beep(880,0.12);T.last=s}
+  if(!T.paused&&r<=0){finish(false);return}
+  box.className='timer '+(T.kind==='rest'||T.kind==='ready'?'rest':'work');
+  $('tclock').textContent=fmt(r);
+  $('tbar').style.width=Math.min(100,(1-r/T.dur)*100)+'%';
+  $('tlabel').textContent=T.label;$('tsub').textContent=T.sub||'';
+  btns.forEach(b=>$(b).disabled=false);
+  $('bPause').textContent=T.paused?'Resume':'Pause';
+}
+setInterval(update,200);
+
+$('bPause').onclick=()=>{if(!T)return;if(T.paused){T.end=Date.now()+T.left*1000;T.paused=false}else{T.left=remaining();T.paused=true}update()};
+$('bPlus').onclick=()=>adj(15);
+$('bMinus').onclick=()=>adj(-15);
+function adj(n){if(!T)return;if(T.paused)T.left=Math.max(1,T.left+n);else T.end=Math.max(Date.now()+1000,T.end+n*1000);T.dur=Math.max(T.dur,remaining());update()}
+$('bSkip').onclick=()=>{if(T)finish(true)};
+$('bStop').onclick=()=>{T=null;idleMsg=['Stopped','Tap a set or start again when ready'];awake(false);update()};
+
+function startEmom(rounds){
+  const moves=curDay().moves; let r=0;
+  const next=()=>{
+    r++;
+    if(r>rounds){idleMsg=['Conditioning done',`${rounds} rounds complete`];return}
+    const after=r<rounds?`Next: ${moves[r%moves.length]}`:'Final round';
+    startTimer({kind:'work',label:moves[(r-1)%moves.length],sub:`Round ${r} of ${rounds}. ${after}`,dur:60,onDone:next});
+  };
+  startTimer({kind:'ready',label:'Get ready',sub:`First: ${moves[0]}`,dur:10,onDone:next});
+}
+
+render();
+if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{})})}
+</script>
+</body>
+</html>
